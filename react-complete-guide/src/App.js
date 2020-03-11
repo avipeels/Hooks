@@ -36,6 +36,12 @@ class App extends Component {
     this.setState({ displayPersons: !this.state.displayPersons });
   }
 
+  deletePersonsHandler = (personId) => {
+    const newPersons = this.state.persons;
+    newPersons.splice(personId, 1);
+    this.setState({ persons: newPersons })
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -44,19 +50,26 @@ class App extends Component {
       padding: '8px',
       cursor: 'pointer'
     }
-    const { displayPersons } = this.state;
-    let persons = null;
+    const { displayPersons, persons } = this.state;
+    let personsList = null;
     if (displayPersons) {
-      persons = (
+      personsList = (
         <div>
-          <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+          {persons.map((person, index) => {
+            return <Person
+              click={() => this.deletePersonsHandler(index)}
+              name={person.name}
+              age={person.age}
+            />
+          })}
+          {/* <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
           <Person
             click={this.switchNameHandler.bind(this, 'Avinash P')}
             name={this.state.persons[1].name}
             age={this.state.persons[1].age}
             changed={this.changeNameHandler}>My hobbies: Gaming
             </Person>
-          <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+          <Person name={this.state.persons[2].name} age={this.state.persons[2].age} /> */}
         </div>
       )
     }
@@ -72,7 +85,7 @@ class App extends Component {
           // onClick={this.switchNameHandler.bind(this, 'Avinash Peelu')}>Switch Name
           onClick={this.toggleNameDisplayHandler}>Toggle Persons
         </button>
-        {persons}
+        {personsList}
       </div>
     );
   }
