@@ -7,9 +7,9 @@ class App extends Component {
 
   state = {
     persons: [
-      { name: 'Avinash', age: 29 },
-      { name: 'Bhanu', age: 25 },
-      { name: 'Manoj', age: 26 },
+      { id: 'abc123', name: 'Avinash', age: 29 },
+      { id: 'def234', name: 'Bhanu', age: 25 },
+      { id: 'ghi345', name: 'Manoj', age: 26 },
     ],
     displayPersons: false
   }
@@ -22,14 +22,22 @@ class App extends Component {
   //     ]
   //   })
   // }
-  changeNameHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: this.state.persons[0].name, age: 29 },
-        { name: event.target.value, age: 25 },
-        { name: 'Manoj Peelukhana', age: 26 },
-      ]
-    })
+  changeNameHandler = (event, id) => {
+    const { persons } = this.state;
+    //get the person
+    const personIndex = persons.findIndex(p => {
+      return p.id === id
+    });
+    console.log(personIndex);
+    const person = { ...persons[personIndex] }; // make a copy of person Object because objects have reference to orginal value which changes the source object.
+    console.log(person);
+    //update the person name immutably
+    person.name = event.target.value;
+    const personsNew = [...persons]; // make a copy of persons Array because arrays have reference to orginal value which changes the source array.
+    personsNew[personIndex] = person;
+    console.log(personsNew);
+    //update the state
+    this.setState({ persons: personsNew });
   }
 
   toggleNameDisplayHandler = () => {
@@ -58,9 +66,11 @@ class App extends Component {
         <div>
           {persons.map((person, index) => {
             return <Person
+              key={person.id}
               click={() => this.deletePersonsHandler(index)}
               name={person.name}
               age={person.age}
+              changed={(event) => this.changeNameHandler(event, person.id)}
             />
           })}
           {/* <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
