@@ -10,7 +10,8 @@ class App extends Component {
       { name: 'Avinash', age: 29 },
       { name: 'Bhanu', age: 25 },
       { name: 'Manoj', age: 26 },
-    ]
+    ],
+    displayPersons: false
   }
   switchNameHandler = (newName) => {
     this.setState({
@@ -30,6 +31,11 @@ class App extends Component {
       ]
     })
   }
+
+  toggleNameDisplayHandler = () => {
+    this.setState({ displayPersons: !this.state.displayPersons });
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -38,6 +44,7 @@ class App extends Component {
       padding: '8px',
       cursor: 'pointer'
     }
+    const { displayPersons } = this.state;
     return (
       <div className="App">
         <header className="App-header">
@@ -47,19 +54,22 @@ class App extends Component {
 
         <button
           style={style}
-          onClick={this.switchNameHandler.bind(this, 'Avinash Peelu')}>Switch Name
+          // onClick={this.switchNameHandler.bind(this, 'Avinash Peelu')}>Switch Name
+          onClick={this.toggleNameDisplayHandler}>Toggle Persons
         </button>
-
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-
-        <Person
-          click={this.switchNameHandler.bind(this, 'Avinash P')}
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          changed={this.changeNameHandler}>My hobbies: Gaming
-        </Person>
-
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+        {
+          displayPersons &&
+          <div>
+            <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
+            <Person
+              click={this.switchNameHandler.bind(this, 'Avinash P')}
+              name={this.state.persons[1].name}
+              age={this.state.persons[1].age}
+              changed={this.changeNameHandler}>My hobbies: Gaming
+            </Person>
+            <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+          </div>
+        }
       </div>
     );
   }
