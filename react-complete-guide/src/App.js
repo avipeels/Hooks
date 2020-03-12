@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Radium from 'radium';
 import logo from './logo.svg';
 import './App.css';
 import Person from './Person/Person';
@@ -13,15 +14,7 @@ class App extends Component {
     ],
     displayPersons: false
   }
-  // switchNameHandler = (newName) => {
-  //   this.setState({
-  //     persons: [
-  //       { name: newName, age: 29 },
-  //       { name: 'Chandra Bhanu', age: 25 },
-  //       { name: 'Manoj Peelukhana', age: 26 },
-  //     ]
-  //   })
-  // }
+
   changeNameHandler = (event, id) => {
     const { persons } = this.state;
     //get the person
@@ -53,11 +46,17 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
-      border: '1px solid blue',
+      border: '1px solid transparent',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      marginTop: '16px',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'blue',
+      }
     }
     const { displayPersons, persons } = this.state;
     let personsList = null;
@@ -73,16 +72,13 @@ class App extends Component {
               changed={(event) => this.changeNameHandler(event, person.id)}
             />
           })}
-          {/* <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-          <Person
-            click={this.switchNameHandler.bind(this, 'Avinash P')}
-            name={this.state.persons[1].name}
-            age={this.state.persons[1].age}
-            changed={this.changeNameHandler}>My hobbies: Gaming
-            </Person>
-          <Person name={this.state.persons[2].name} age={this.state.persons[2].age} /> */}
         </div>
       )
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color:'red',
+      }
     }
     return (
       <div className="App">
@@ -102,4 +98,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Radium(App);
