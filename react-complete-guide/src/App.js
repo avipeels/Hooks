@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
-import Radium from 'radium';
+import styled from 'styled-components';
 import logo from './logo.svg';
 import './App.css';
 import Person from './Person/Person';
+
+const StyledButton = styled.button`
+  background-color: ${props => props.alt ? 'red' : 'green'};
+  color: white;
+  font: inherit;
+  border: 1px solid transparent;
+  padding: 8px;
+  cursor: pointer;
+  margin-top: 16px;
+  &:hover {
+    background-color:  ${props => props.alt ? 'salmon' : 'lightgreen'};
+    color: black;
+  }
+`;
 
 class App extends Component {
 
@@ -21,7 +35,6 @@ class App extends Component {
     const personIndex = persons.findIndex(p => {
       return p.id === id
     });
-    console.log(personIndex);
     const person = { ...persons[personIndex] }; // make a copy of person Object because objects have reference to orginal value which changes the source object.
     console.log(person);
     //update the person name immutably
@@ -45,19 +58,6 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid transparent',
-      padding: '8px',
-      cursor: 'pointer',
-      marginTop: '16px',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'blue',
-      }
-    }
     const { displayPersons, persons } = this.state;
     let personsList = null;
     if (displayPersons) {
@@ -74,11 +74,6 @@ class App extends Component {
           })}
         </div>
       )
-      style.backgroundColor = 'red';
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color:'red',
-      }
     }
     return (
       <div className="App">
@@ -87,15 +82,14 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
 
-        <button
-          style={style}
-          // onClick={this.switchNameHandler.bind(this, 'Avinash Peelu')}>Switch Name
+        <StyledButton
+          alt={this.state.displayPersons}
           onClick={this.toggleNameDisplayHandler}>Toggle Persons
-        </button>
+        </StyledButton>
         {personsList}
       </div>
     );
   }
 }
 
-export default Radium(App);
+export default App;
