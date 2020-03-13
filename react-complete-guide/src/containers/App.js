@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from '../logo.svg';
 import styles from './App.module.css';
-import Person from './Person/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
 
@@ -47,19 +48,11 @@ class App extends Component {
     let personsList = null;
     let buttonClass = [styles.Button];
     if (displayPersons) {
-      personsList = (
-        <div>
-          {persons.map((person, index) => {
-            return <Person
-              key={person.id}
-              click={() => this.deletePersonsHandler(index)}
-              name={person.name}
-              age={person.age}
-              changed={(event) => this.changeNameHandler(event, person.id)}
-            />
-          })}
-        </div>
-      )
+      personsList = <Persons
+        persons={persons}
+        clicked={this.deletePersonsHandler}
+        changed={this.changeNameHandler}
+      />
       buttonClass.push(styles.Red)
     }
     return (
@@ -68,12 +61,10 @@ class App extends Component {
           <img src={logo} className={styles.AppLogo} alt="logo" />
           <h1 className={styles.AppTitle}>Welcome to React</h1>
         </header>
-
-        <button
-          className={buttonClass.join(' ')}
-          alt={this.state.displayPersons}
-          onClick={this.toggleNameDisplayHandler}>Toggle Persons
-        </button>
+        <Cockpit
+          displayPersons={displayPersons}
+          clicked={this.toggleNameDisplayHandler}
+        />
         {personsList}
       </div>
     );
