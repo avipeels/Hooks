@@ -1,22 +1,7 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import logo from './logo.svg';
-import './App.css';
+import styles from './App.module.css';
 import Person from './Person/Person';
-
-const StyledButton = styled.button`
-  background-color: ${props => props.alt ? 'red' : 'green'};
-  color: white;
-  font: inherit;
-  border: 1px solid transparent;
-  padding: 8px;
-  cursor: pointer;
-  margin-top: 16px;
-  &:hover {
-    background-color:  ${props => props.alt ? 'salmon' : 'lightgreen'};
-    color: black;
-  }
-`;
 
 class App extends Component {
 
@@ -51,15 +36,16 @@ class App extends Component {
   }
 
   deletePersonsHandler = (personId) => {
-    // const newPersons = this.state.persons.slice();
     const newPersons = [...this.state.persons];
     newPersons.splice(personId, 1);
     this.setState({ persons: newPersons })
   }
 
   render() {
+
     const { displayPersons, persons } = this.state;
     let personsList = null;
+    let buttonClass = [styles.Button];
     if (displayPersons) {
       personsList = (
         <div>
@@ -74,18 +60,20 @@ class App extends Component {
           })}
         </div>
       )
+      buttonClass.push(styles.Red)
     }
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+      <div className={styles.App}>
+        <header className={styles.AppHeader}>
+          <img src={logo} className={styles.AppLogo} alt="logo" />
+          <h1 className={styles.AppTitle}>Welcome to React</h1>
         </header>
 
-        <StyledButton
+        <button
+          className={buttonClass.join(' ')}
           alt={this.state.displayPersons}
           onClick={this.toggleNameDisplayHandler}>Toggle Persons
-        </StyledButton>
+        </button>
         {personsList}
       </div>
     );
