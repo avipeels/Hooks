@@ -15,11 +15,12 @@ class App extends Component {
       { id: 'def234', name: 'Bhanu', age: 25 },
       { id: 'ghi345', name: 'Manoj', age: 26 },
     ],
-    displayPersons: false
+    displayPersons: false,
+    showCockpit: true,
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log('[App.js] getDerivedStateFromProps', props, state);
+    console.log('[App.js] getDerivedStateFromProps');
     return state;
   }
 
@@ -31,6 +32,10 @@ class App extends Component {
     console.log('[App.js] componentDidMount');
   }
 
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate...');
+  }
+
   changeNameHandler = (event, id) => {
     const { persons } = this.state;
     //get the person
@@ -38,12 +43,10 @@ class App extends Component {
       return p.id === id
     });
     const person = { ...persons[personIndex] }; // make a copy of person Object because objects have reference to orginal value which changes the source object.
-    console.log(person);
     //update the person name immutably
     person.name = event.target.value;
     const personsNew = [...persons]; // make a copy of persons Array because arrays have reference to orginal value which changes the source array.
     personsNew[personIndex] = person;
-    console.log(personsNew);
     //update the state
     this.setState({ persons: personsNew });
   }
@@ -77,10 +80,16 @@ class App extends Component {
           <img src={logo} className={styles.AppLogo} alt="logo" />
           <h1 className={styles.AppTitle}>Welcome to React</h1>
         </header>
-        <Cockpit
-          displayPersons={displayPersons}
-          clicked={this.toggleNameDisplayHandler}
-        />
+        <button onClick={() => { this.setState({ showCockpit: false }) }}></button>
+        {this.state.showCockpit ? (
+          <Cockpit
+            displayPersons={displayPersons}
+            persons={persons}
+            clicked={this.toggleNameDisplayHandler}
+
+          />) : null
+        }
+
         {personsList}
       </div>
     );
