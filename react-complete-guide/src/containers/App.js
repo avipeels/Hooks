@@ -80,7 +80,7 @@ class App extends Component {
           <img src={logo} className={styles.AppLogo} alt="logo" />
           <h1 className={styles.AppTitle}>Welcome to React</h1>
         </header>
-        <button onClick={() => { this.setState({ showCockpit: false }) }}></button>
+        <button onClick={() => { this.setState({ showCockpit: false }) }}>Something</button>
         {this.state.showCockpit ? (
           <Cockpit
             displayPersons={displayPersons}
