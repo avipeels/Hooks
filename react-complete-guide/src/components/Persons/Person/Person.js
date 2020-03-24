@@ -4,6 +4,13 @@ import classes from './Person.module.css';
 import withClass from '../../../hocs/withClass';
 
 class Person extends Component {
+    constructor(props) {
+        super(props);
+        this.inputElementRef = React.createRef()
+    }
+    componentDidMount() {
+        this.inputElementRef.current.focus();
+    }
     render() {
         console.log('[Person.js] rendering...');
         const { name, age, children, click, changed } = this.props;
@@ -11,7 +18,13 @@ class Person extends Component {
             <Fragment>
                 <p onClick={click}>I am a {name} and I am {age} years old</p>
                 <p>{children}</p>
-                <input type="text" onChange={changed} value={name} />
+                <input
+                    type="text"
+                    onChange={changed}
+                    value={name}
+                    // ref={(inputEl) => { this.inputElement = inputEl }}
+                    ref={this.inputElementRef}
+                />
             </Fragment>
         );
     }

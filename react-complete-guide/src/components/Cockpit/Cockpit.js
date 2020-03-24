@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './Cockpit.module.css';
 const Cockpit = props => {
+    const toggleBtnRef = useRef(null);
     useEffect(() => { // combines componentDidMount and componentDidUpdate
         console.log('[Cockpit.js] useEffect...');
+        toggleBtnRef.current.click();
         // Https requests...
         setTimeout(() => {
             console.log('Pushed data to the server');
@@ -29,7 +31,9 @@ const Cockpit = props => {
         <div className={styles.Cockpit}>
             <button
                 className={buttonClass.join(' ')}
-                onClick={clicked}>Toggle Persons</button>
+                onClick={clicked}
+                ref={toggleBtnRef}
+            >Toggle Persons</button>
         </div>
     );
 }
