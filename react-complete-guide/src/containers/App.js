@@ -3,6 +3,8 @@ import logo from '../logo.svg';
 import styles from './App.module.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import withClass from '../hocs/withClass';
+import classes from './App.module.css';
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +19,7 @@ class App extends Component {
     ],
     displayPersons: false,
     showCockpit: true,
+    changeCounter: 0,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -48,7 +51,12 @@ class App extends Component {
     const personsNew = [...persons]; // make a copy of persons Array because arrays have reference to orginal value which changes the source array.
     personsNew[personIndex] = person;
     //update the state
-    this.setState({ persons: personsNew });
+    this.setState((prevState, props) => {
+      return {
+        persons: personsNew,
+        changeCounter: prevState.changeCounter + 1,
+      }
+    });
   }
 
   toggleNameDisplayHandler = () => {
@@ -96,4 +104,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
